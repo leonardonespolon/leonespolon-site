@@ -161,9 +161,13 @@
 
 <div class="wrap">
 
+  <div class="retro-marquee">
+    <span class="retro-marquee-inner">★ WELCOME TO MY HOMEPAGE ★ BEST VIEWED IN NETSCAPE NAVIGATOR ★ EST. 2026 ★ YOU HAVE FOUND THE FUN ZONE ★ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  </div>
+
   <nav>
     <div class="nav-inner">
-      <span class="site-name">Leonardo Nespolon</span>
+      <span class="site-name">Leonardo Nespolon<span class="retro-star"> ★</span></span>
       <div class="nav-right">
         <ul class="nav-links">
           <li><a href="#writing">Writing</a></li>
@@ -172,6 +176,7 @@
           <li><a href="#design-system">Design System</a></li>
         </ul>
         <button class="theme-btn" id="theme-btn" aria-label="Toggle colour scheme">Dark</button>
+        <button class="theme-btn retro-btn" id="retro-btn" aria-label="Toggle retro mode">Retro</button>
       </div>
     </div>
   </nav>
@@ -387,6 +392,8 @@ btn.addEventListener('click', () => {
 console.log('%c Hey, you found the console.', 'font-family: Georgia, serif; font-size: 14px; color: #3B7DD8;');
 console.log('%c I like you already. — Leonardo', 'font-family: Georgia, serif; font-size: 12px; color: #78716C;');
 </script>
+
+<div class="retro-flash" id="retro-flash">🕹️ CHEAT CODE ACTIVATED</div>
 
 </body>
 </html>
