@@ -148,7 +148,8 @@
     /* Marquee banner — hidden in normal mode */
     .retro-marquee { display: none; background: #000080; padding: 5px 0; overflow: hidden; }
     [data-retro="true"] .retro-marquee { display: block; }
-    .retro-marquee-inner { display: inline-block; white-space: nowrap; color: #FFFF00; font-family: 'Comic Sans MS', cursive; font-size: 0.75rem; font-weight: bold; animation: retro-scroll 20s linear infinite; }
+    .retro-marquee-inner { display: inline-block; white-space: nowrap; color: #FFFF00; font-family: 'Comic Sans MS', cursive; font-size: 0.75rem; font-weight: bold; }
+    [data-retro="true"] .retro-marquee-inner { animation: retro-scroll 20s linear infinite; }
     @keyframes retro-scroll { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
 
     /* Konami flash message */
