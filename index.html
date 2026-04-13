@@ -390,8 +390,10 @@ btn.addEventListener('click', () => {
 
 <script>
 // Retro mode
+(function() {
 const retroBtn = document.getElementById('retro-btn');
 const retroFlash = document.getElementById('retro-flash');
+if (!retroBtn || !retroFlash) return;
 let retro = false;
 
 function setRetro(on) {
@@ -424,9 +426,11 @@ document.addEventListener('keydown', e => {
       setTimeout(() => retroFlash.classList.remove('show'), 2000);
     }
   } else {
-    konamiIdx = e.code === KONAMI[0] ? 1 : 0;
+    konamiIdx = 0;
+    if (e.code === KONAMI[0]) konamiIdx = 1;
   }
 });
+})();
 </script>
 
 <script>
