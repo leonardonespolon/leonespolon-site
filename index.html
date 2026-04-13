@@ -389,6 +389,47 @@ btn.addEventListener('click', () => {
 </script>
 
 <script>
+// Retro mode
+const retroBtn = document.getElementById('retro-btn');
+const retroFlash = document.getElementById('retro-flash');
+let retro = false;
+
+function setRetro(on) {
+  retro = on;
+  document.documentElement.setAttribute('data-retro', on ? 'true' : 'false');
+  retroBtn.textContent = on ? '☆ Normal' : 'Retro';
+  try { localStorage.setItem('retro', on ? 'true' : 'false'); } catch(e) {}
+  if (on) {
+    console.log('%c 🕹️ You found retro mode.\n   If you\'re reading this, we\'re going to get along just fine.\n   — Leonardo', 'font-family: Comic Sans MS, cursive; font-size: 13px; color: #0000CC;');
+  }
+}
+
+// Restore from localStorage
+try {
+  if (localStorage.getItem('retro') === 'true') setRetro(true);
+} catch(e) {}
+
+retroBtn.addEventListener('click', () => setRetro(!retro));
+
+// Konami code
+const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
+let konamiIdx = 0;
+document.addEventListener('keydown', e => {
+  if (e.code === KONAMI[konamiIdx]) {
+    konamiIdx++;
+    if (konamiIdx === KONAMI.length) {
+      konamiIdx = 0;
+      if (!retro) setRetro(true);
+      retroFlash.classList.add('show');
+      setTimeout(() => retroFlash.classList.remove('show'), 2000);
+    }
+  } else {
+    konamiIdx = e.code === KONAMI[0] ? 1 : 0;
+  }
+});
+</script>
+
+<script>
 console.log('%c Hey, you found the console.', 'font-family: Georgia, serif; font-size: 14px; color: #3B7DD8;');
 console.log('%c I like you already. — Leonardo', 'font-family: Georgia, serif; font-size: 12px; color: #78716C;');
 </script>
