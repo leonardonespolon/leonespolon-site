@@ -95,10 +95,12 @@
     .swatch-label { font-family: var(--mono); font-size: 0.58rem; color: var(--muted); text-align: center; line-height: 1.4; }
     .ds-type { margin-bottom: 20px; }
     .ds-type-label { font-family: var(--sans); font-size: 0.65rem; color: var(--faint); display: block; margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
-    .ds-specimen-display { font-family: var(--serif); font-size: 1.8rem; line-height: 1.2; color: var(--text); }
+    .ds-specimen-display { font-family: var(--serif); font-size: 3rem; line-height: 1.1; color: var(--text); }
+    .ds-specimen-h2 { font-family: var(--serif); font-size: 1.688rem; line-height: 1.3; color: var(--text); }
+    .ds-specimen-h3 { font-family: var(--serif); font-size: 1.25rem; line-height: 1.4; color: var(--text); }
     .ds-specimen-body { font-family: var(--serif); font-size: 1rem; line-height: 1.75; color: var(--text); max-width: 480px; }
-    .ds-specimen-ui { font-family: var(--sans); font-size: 0.85rem; color: var(--text); }
-    .ds-specimen-mono { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+    .ds-specimen-ui { font-family: var(--sans); font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }
+    .ds-specimen-mono { font-family: var(--mono); font-size: 0.938rem; line-height: 1.6; color: var(--muted); }
     .ds-btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
     .btn-primary { font-family: var(--sans); font-size: 0.8rem; font-weight: 500; background: var(--accent); color: #fff; border: none; border-radius: 4px; padding: 9px 18px; cursor: pointer; transition: background 0.15s; }
     .btn-primary:hover { background: var(--accent-h); }
@@ -247,19 +249,27 @@
     <div class="ds-block">
       <p class="ds-heading">Typography</p>
       <div class="ds-type">
-        <span class="ds-type-label">Display — Source Serif 4</span>
+        <span class="ds-type-label">Display — Source Serif 4, 48px / 1.1</span>
         <p class="ds-specimen-display">The sun is a perfectly average star.</p>
+      </div>
+      <div class="ds-type">
+        <span class="ds-type-label">H2 — Source Serif 4, 27px / 1.3</span>
+        <p class="ds-specimen-h2">There are more stars in the universe than grains of sand on all of Earth's beaches.</p>
+      </div>
+      <div class="ds-type">
+        <span class="ds-type-label">H3 — Source Serif 4, 20px / 1.4</span>
+        <p class="ds-specimen-h3">Saturn would float if you put it in water. It's less dense than the ocean.</p>
       </div>
       <div class="ds-type">
         <span class="ds-type-label">Body — Source Serif 4, 18px / 1.75</span>
         <p class="ds-specimen-body">A day on Venus is longer than a year on Venus. It rotates so slowly that it completes an orbit around the sun before finishing one spin.</p>
       </div>
       <div class="ds-type">
-        <span class="ds-type-label">UI / Nav — Instrument Sans</span>
+        <span class="ds-type-label">UI / Nav — Instrument Sans, 14px / 1.5</span>
         <p class="ds-specimen-ui">↑ ↑ ↓ ↓ ← → ← → B A</p>
       </div>
       <div class="ds-type">
-        <span class="ds-type-label">Code — JetBrains Mono</span>
+        <span class="ds-type-label">Code — JetBrains Mono, 15px / 1.6</span>
         <p class="ds-specimen-mono">npm install ghost-cli -g</p>
       </div>
     </div>
