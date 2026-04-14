@@ -53,14 +53,14 @@
     .site-name { font-family: var(--sans); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.02em; color: var(--text); }
     .nav-right { display: flex; align-items: center; gap: 20px; }
     .nav-links { display: flex; gap: 20px; }
-    .nav-links a { font-family: var(--sans); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; transition: color 0.15s; }
+    .nav-links a { font-family: var(--sans); font-size: 0.78rem; color: var(--muted); transition: color 0.15s; }
     .nav-links a:hover { color: var(--accent); }
     .theme-btn { background: none; border: 1px solid var(--border); border-radius: 100px; padding: 3px 11px; font-family: var(--sans); font-size: 0.68rem; color: var(--faint); cursor: pointer; transition: border-color 0.15s, color 0.15s; }
     .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── Bio ──────────────────────────────────────────────────── */
     .bio { padding-bottom: 56px; border-bottom: 1px solid var(--border); }
-    .bio p { font-size: 1.08rem; line-height: 1.8; color: var(--text); max-width: 520px; }
+    .bio p { font-size: 1.08rem; line-height: 1.8; color: var(--text); max-width: 520px; text-wrap: balance; }
     .bio a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color 0.15s; }
     .bio a:hover { border-color: var(--accent); }
 
@@ -72,7 +72,7 @@
     .post-list { display: flex; flex-direction: column; gap: 20px; }
     .post-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
     .post-title-wrap { flex: 1; min-width: 0; }
-    .post-link { font-family: var(--serif); font-size: 1rem; color: var(--text); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color 0.15s, border-color 0.15s; display: inline; }
+    .post-link { font-family: var(--serif); font-size: 1rem; color: var(--text); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color 0.15s, border-color 0.15s; display: inline; text-wrap: pretty; }
     .post-link:hover { color: var(--accent); border-color: var(--accent); }
     .post-tag { display: inline-block; font-family: var(--sans); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.04em; color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); padding: 1px 7px; border-radius: 100px; margin-left: 6px; vertical-align: middle; position: relative; top: -1px; white-space: nowrap; }
     .post-date { font-family: var(--sans); font-size: 0.72rem; color: var(--faint); white-space: nowrap; flex-shrink: 0; }
@@ -83,7 +83,7 @@
     @media (max-width: 520px) { .notes-grid { grid-template-columns: 1fr; } }
     .note-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; transition: border-color 0.15s; }
     .note-card:hover { border-color: var(--accent); }
-    .note-title { font-family: var(--serif); font-size: 0.9rem; line-height: 1.55; color: var(--text); margin-bottom: 6px; }
+    .note-title { font-family: var(--serif); font-size: 1rem; line-height: 1.75; color: var(--text); margin-bottom: 6px; }
     .note-meta { font-family: var(--sans); font-size: 0.68rem; color: var(--faint); }
 
     /* ── Design System Section ───────────────────────────────── */
