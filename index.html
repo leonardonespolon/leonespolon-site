@@ -138,7 +138,7 @@
     [data-retro="true"] .nav-links a { color: #0000CC; text-decoration: underline; }
     [data-retro="true"] .post-link { color: #0000CC; text-decoration: underline; }
     [data-retro="true"] .section-label { color: #CC0000; font-weight: 700; }
-    [data-retro="true"] .theme-btn { border: 2px solid #000; border-radius: 0; }
+    [data-retro="true"] .theme-btn { border: 2px solid #000; border-radius: 0; opacity: 0.4; cursor: not-allowed; }
     [data-retro="true"] .retro-btn { background: #00CC00; color: #FFFF00; border: 2px solid #000; border-radius: 0; font-weight: bold; }
 
     /* Blinking star — hidden in normal mode */
@@ -363,6 +363,8 @@ let retro = false;
 function setRetro(on) {
   retro = on;
   document.documentElement.setAttribute('data-retro', on ? 'true' : 'false');
+  btn.disabled = on;
+  btn.title = on ? 'Theme toggle disabled in retro mode' : '';
   try { localStorage.setItem('retro', on ? 'true' : 'false'); } catch(e) {}
   if (on) {
     console.log('%c 🕹️ You found retro mode.\n   If you\'re reading this, we\'re going to get along just fine.\n   — Leonardo', 'font-family: Comic Sans MS, cursive; font-size: 13px; color: #0000CC;');
