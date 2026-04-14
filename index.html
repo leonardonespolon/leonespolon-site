@@ -383,6 +383,7 @@ document.addEventListener('keydown', e => {
     if (konamiIdx === KONAMI.length) {
       konamiIdx = 0;
       setRetro(!retro);
+      retroFlash.textContent = retro ? '🕹️ CHEAT CODE ACTIVATED' : '🕹️ CHEAT CODE DEACTIVATED';
       retroFlash.classList.add('show');
       setTimeout(() => retroFlash.classList.remove('show'), 2000);
     }
