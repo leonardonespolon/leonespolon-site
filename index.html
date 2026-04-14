@@ -173,17 +173,15 @@
         <ul class="nav-links">
           <li><a href="#writing">Writing</a></li>
           <li><a href="#projects">Projects</a></li>
-          <li><a href="#reads">Reads</a></li>
-          <li><a href="#design">Design</a></li>
+          <li><a href="#stuff">Stuff</a></li>
         </ul>
         <button class="theme-btn" id="theme-btn" aria-label="Toggle colour scheme">Dark</button>
-        <button class="theme-btn retro-btn" id="retro-btn" aria-label="Toggle retro mode">Retro</button>
       </div>
     </div>
   </nav>
 
   <section class="bio">
-    <p>Head of Marketing at a German startup, building on the side. Writing about the <a href="#writing">solopreneur journey</a> — what I learn, what I ship, and what I find worth reading.</p>
+    <p>Currently Head of Marketing @ a German Startup in the Green-Tech space, building on the side. Former <a href="https://de.wikipedia.org/wiki/Judo" target="_blank" rel="noopener">Judo</a> player converted into <a href="#running">runner</a>, here sharing everything I find interesting online and offline.</p>
   </section>
 
   <section class="section" id="writing">
@@ -196,13 +194,26 @@
     <p style="font-family: var(--sans); font-size: 0.85rem; color: var(--faint);">Nothing here yet.</p>
   </section>
 
-  <section class="section" id="reads">
-    <p class="section-label">Interesting Reads</p>
+  <section class="section" id="stuff">
+    <p class="section-label">Interesting Stuff</p>
     <ul class="post-list">
       <li class="post-row">
         <div class="post-title-wrap"><a href="https://giansegato.com/essays/agency-is-eating-the-world" class="post-link" target="_blank" data-pt="post">Agency is Eating the World <span class="post-tag">Gian Segato</span></a></div>
         <span class="post-date">Apr 2025</span>
       </li>
+    </ul>
+  </section>
+
+  <section class="section" id="running">
+    <p class="section-label">Running</p>
+    <p style="font-family: var(--serif); font-size: 1rem; color: var(--text); margin-bottom: 32px;">Started running on Jan 2025, haven't stopped yet.</p>
+    <p class="section-label" style="margin-bottom: 16px;">Running Stats</p>
+    <ul class="post-list">
+      <li class="post-row"><div class="post-title-wrap"><span class="post-link">KM run to date</span></div><span class="post-date">NA</span></li>
+      <li class="post-row"><div class="post-title-wrap"><span class="post-link">Marathon</span></div><span class="post-date">NA</span></li>
+      <li class="post-row"><div class="post-title-wrap"><span class="post-link">Half Marathon</span></div><span class="post-date">01:32:08</span></li>
+      <li class="post-row"><div class="post-title-wrap"><span class="post-link">10KM</span></div><span class="post-date">NA</span></li>
+      <li class="post-row"><div class="post-title-wrap"><span class="post-link">5KM</span></div><span class="post-date">NA</span></li>
     </ul>
   </section>
 
@@ -235,7 +246,7 @@
       </div>
       <div class="ds-type">
         <span class="ds-type-label">UI / Nav — Instrument Sans</span>
-        <p class="ds-specimen-ui">Writing · Notes · About · April 2026</p>
+        <p class="ds-specimen-ui">↑ ↑ ↓ ↓ ← → ← → B A</p>
       </div>
       <div class="ds-type">
         <span class="ds-type-label">Code — JetBrains Mono</span>
@@ -258,6 +269,7 @@
       <p>&copy; 2026 Leonardo Nespolon</p>
       <div class="footer-links">
         <a href="https://x.com/itsnespo" target="_blank" rel="noopener">X</a>
+        <span style="font-family: var(--sans); font-size: 0.72rem; color: var(--faint);">Strava</span>
         <a href="https://de.linkedin.com/in/leonardonespolon" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
@@ -344,15 +356,13 @@ btn.addEventListener('click', () => {
 <script>
 // Retro mode
 (function() {
-const retroBtn = document.getElementById('retro-btn');
 const retroFlash = document.getElementById('retro-flash');
-if (!retroBtn || !retroFlash) return;
+if (!retroFlash) return;
 let retro = false;
 
 function setRetro(on) {
   retro = on;
   document.documentElement.setAttribute('data-retro', on ? 'true' : 'false');
-  retroBtn.textContent = on ? '☆ Normal' : 'Retro';
   try { localStorage.setItem('retro', on ? 'true' : 'false'); } catch(e) {}
   if (on) {
     console.log('%c 🕹️ You found retro mode.\n   If you\'re reading this, we\'re going to get along just fine.\n   — Leonardo', 'font-family: Comic Sans MS, cursive; font-size: 13px; color: #0000CC;');
@@ -363,8 +373,6 @@ function setRetro(on) {
 try {
   if (localStorage.getItem('retro') === 'true') setRetro(true);
 } catch(e) {}
-
-retroBtn.addEventListener('click', () => setRetro(!retro));
 
 // Konami code
 const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
