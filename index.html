@@ -382,7 +382,7 @@ document.addEventListener('keydown', e => {
     konamiIdx++;
     if (konamiIdx === KONAMI.length) {
       konamiIdx = 0;
-      if (!retro) setRetro(true);
+      setRetro(!retro);
       retroFlash.classList.add('show');
       setTimeout(() => retroFlash.classList.remove('show'), 2000);
     }
