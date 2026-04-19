@@ -27,6 +27,7 @@ jobs:
           import json
           import re
           import os
+          from datetime import datetime, timezone, timedelta
 
           client_id     = os.environ["STRAVA_CLIENT_ID"]
           client_secret = os.environ["STRAVA_CLIENT_SECRET"]
@@ -55,19 +56,59 @@ jobs:
           total_km = round(stats["all_run_totals"]["distance"] / 1000, 1)
           print(f"Total km: {total_km}")
 
-          # ── Patch index.html ──────────────────────────────────────────
+          # ── Last 8 weeks of km ───────────────────────────────────────
+          now = datetime.now(timezone.utc)
+          this_monday = now - timedelta(days=now.weekday())
+          this_monday = this_monday.replace(hour=0, minute=0, second=0, microsecond=0)
+          weekly_km = []
+
+          for i in range(7, -1, -1):  # 7 = oldest, 0 = current week
+              week_start = this_monday - timedelta(weeks=i)
+              week_end   = now if i == 0 else week_start + timedelta(days=7)
+              after_ts   = int(week_start.timestamp())
+              before_ts  = int(week_end.timestamp())
+              acts = get(f"https://www.strava.com/api/v3/athlete/activities?after={after_ts}&before={before_ts}&per_page=100")
+              km = round(sum(a["distance"] for a in acts if a.get("sport_type", a["type"]) in ("Run", "TrailRun")) / 1000, 1)
+              weekly_km.append(km)
+
+          this_week_km = weekly_km[-1]
+          max_km = max(weekly_km) if max(weekly_km) > 0 else 1
+          print(f"Weekly km: {weekly_km}")
+          print(f"This week: {this_week_km} km")
+
+          # ── Patch index.html ─────────────────────────────────────────
           with open("index.html", "r") as f:
               html = f.read()
 
-          def replace_stat(html, label, value):
-              return re.sub(
-                  rf'(<span class="post-link">{re.escape(label)}</span></div>'
-                  rf'<span class="post-date">)[^<]*(</span>)',
-                  rf'\g<1>{value}\2',
-                  html
-              )
+          # Total km → data-target attribute
+          html = re.sub(
+              r'(class="running-km-number" data-target=")[^"]*(")',
+              rf'\g<1>{total_km}\2',
+              html
+          )
 
-          html = replace_stat(html, "KM run to date", f"{total_km} km")
+          # This week label
+          html = re.sub(
+              r'(class="running-km-week">)[^<]*(</p>)',
+              rf'\g<1>+{this_week_km} km this week\2',
+              html
+          )
+
+          # Weekly bars between sentinel comments
+          bar_html = ""
+          for i, km in enumerate(weekly_km):
+              pct = round((km / max_km) * 100)
+              pct = max(pct, 4)  # minimum visible height
+              is_current = (i == len(weekly_km) - 1)
+              cls = "running-bar running-bar--current" if is_current else "running-bar"
+              bar_html += f'        <div class="{cls}" style="height:{pct}%"></div>\n'
+
+          html = re.sub(
+              r'(<!-- BARS_START -->).*?(<!-- BARS_END -->)',
+              rf'\1\n{bar_html}        \2',
+              html,
+              flags=re.DOTALL
+          )
 
           with open("index.html", "w") as f:
               f.write(html)

@@ -39,7 +39,28 @@
     .note-title { font-family: var(--serif); font-size: 1rem; line-height: 1.75; color: var(--text); margin-bottom: 6px; }
     .note-meta { font-family: var(--sans); font-size: 0.68rem; color: var(--faint); }
 
-    /* ── Design System Section ───────────────────────────────── */
+    /* ── Running Section ────────────────────────────────────── */
+    .running-header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 40px; }
+    .running-bio { font-family: var(--serif); font-size: 0.875rem; font-style: italic; color: var(--muted); margin-top: 6px; }
+.running-km-block { margin-bottom: 8px; }
+    .running-km-label { font-family: var(--sans); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+    .running-km-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+    .running-km-number { font-family: var(--mono); font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text); line-height: 1; }
+    .running-km-unit { font-family: var(--sans); font-size: 1.125rem; color: var(--muted); }
+    .running-km-week { font-family: var(--sans); font-size: 0.75rem; font-style: italic; color: var(--faint); margin-bottom: 20px; }
+    .running-bars-wrap { margin-bottom: 40px; }
+    .running-bars { display: flex; align-items: flex-end; gap: 5px; height: 48px; margin-bottom: 8px; }
+    .running-bar { flex: 1; border-radius: 3px 3px 0 0; background: var(--border); opacity: 0.6; }
+    .running-bar--current { background: var(--accent); opacity: 1; }
+    .running-bars-labels { border-top: 1px solid var(--border); padding-top: 6px; display: flex; justify-content: space-between; font-family: var(--sans); font-size: 0.625rem; color: var(--faint); }
+    .running-bars-label--current { color: var(--accent); }
+    .running-pbs { list-style: none; padding: 0; margin: 0 0 28px; }
+    .running-pb-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .running-pb-label { font-family: var(--sans); font-size: 0.8125rem; color: var(--muted); }
+    .running-pb-value { font-family: var(--mono); font-size: 1.375rem; font-weight: 500; letter-spacing: -0.01em; color: var(--text); }
+    .running-strava-link { font-family: var(--sans); font-size: 0.75rem; color: var(--accent); text-decoration: none; }
+    .running-strava-link:hover { text-decoration: underline; }
+
     .ds-block { margin-bottom: 40px; }
     .ds-heading { font-family: var(--sans); font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); letter-spacing: 0.05em; text-transform: uppercase; }
     .swatch-row { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -121,16 +142,66 @@
   </section>
 
   <section class="section" id="running">
-    <p class="section-label">Running</p>
-    <p style="font-family: var(--serif); font-size: 1rem; color: var(--text); margin-bottom: 32px;">Started running on Jan 2025, haven't stopped yet.</p>
-    <p class="section-label" style="margin-bottom: 16px;">Running Stats</p>
-    <ul class="post-list">
-      <li class="post-row"><div class="post-title-wrap"><span class="post-link">KM run to date</span></div><span class="post-date">1434.5 km</span></li>
-      <li class="post-row"><div class="post-title-wrap"><span class="post-link">Marathon</span></div><span class="post-date">NA</span></li>
-      <li class="post-row"><div class="post-title-wrap"><span class="post-link">Half Marathon</span></div><span class="post-date">01:32:08</span></li>
-      <li class="post-row"><div class="post-title-wrap"><span class="post-link">10KM</span></div><span class="post-date">43:13</span></li>
-      <li class="post-row"><div class="post-title-wrap"><span class="post-link">5KM</span></div><span class="post-date">20:17</span></li>
+
+    <!-- Header -->
+    <div class="running-header">
+      <p class="section-label">
+        Running
+      </p>
+      <p class="running-bio">Started running on Jan 2025, haven't stopped yet.</p>
+    </div>
+
+    <!-- KM Counter -->
+    <div class="running-km-block">
+      <p class="running-km-label">Kilometres run</p>
+      <div class="running-km-row">
+        <span class="running-km-number" data-target="1434.5">0.0</span>
+        <span class="running-km-unit">km</span>
+      </div>
+      <p class="running-km-week">+27 km this week</p>
+    </div>
+
+    <!-- Weekly bars -->
+    <div class="running-bars-wrap">
+      <div class="running-bars">
+        <!-- BARS_START -->
+        <div class="running-bar" style="height:62%"></div>
+        <div class="running-bar" style="height:85%"></div>
+        <div class="running-bar" style="height:72%"></div>
+        <div class="running-bar" style="height:100%"></div>
+        <div class="running-bar" style="height:79%"></div>
+        <div class="running-bar" style="height:90%"></div>
+        <div class="running-bar" style="height:69%"></div>
+        <div class="running-bar running-bar--current" style="height:44%"></div>
+        <!-- BARS_END -->
+      </div>
+      <div class="running-bars-labels">
+        <span>8 weeks ago</span>
+        <span class="running-bars-label--current">this week</span>
+      </div>
+    </div>
+
+    <!-- Personal Bests -->
+    <ul class="running-pbs">
+      <li class="running-pb-row">
+        <span class="running-pb-label">Half Marathon</span>
+        <span class="running-pb-value">01:32:08</span>
+      </li>
+      <li class="running-pb-row">
+        <span class="running-pb-label">10 km</span>
+        <span class="running-pb-value">43:13</span>
+      </li>
+      <li class="running-pb-row">
+        <span class="running-pb-label">5 km</span>
+        <span class="running-pb-value">20:17</span>
+      </li>
     </ul>
+
+    <!-- Strava link -->
+    <a href="https://strava.app.link/5uJs32fZk2b" target="_blank" rel="noopener" class="running-strava-link">
+      View on Strava →
+    </a>
+
   </section>
 
   <!-- Design -->
@@ -203,6 +274,33 @@
 </div>
 
 <div class="retro-flash" id="retro-flash">🕹️ CHEAT CODE ACTIVATED</div>
+
+<script>
+// Running: km count-up on scroll into view
+const kmEl = document.querySelector('.running-km-number');
+if (kmEl) {
+  const target = parseFloat(kmEl.dataset.target);
+  let started = false;
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !started) {
+      started = true;
+      const duration = 1400;
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / duration);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const val = target * ease;
+        kmEl.textContent = val.toLocaleString('en', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        if (p < 1) requestAnimationFrame(tick);
+        else kmEl.textContent = target.toLocaleString('en', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      };
+      requestAnimationFrame(tick);
+      observer.disconnect();
+    }
+  }, { threshold: 0.3 });
+  observer.observe(document.getElementById('running'));
+}
+</script>
 
 <script>
 // Theme toggle: light ↔ dark
