@@ -8,11 +8,10 @@ Personal website for Leonardo Nespolon.
 
 ## File Structure
 - `index.html` — homepage
-- `finalized.html` — finalized version of the homepage design
-- `article-template.html` — template for articles
-- `writing/_template.html` — writing section template
-- `public/` — static assets (favicons)
-- `docs/` — documentation
+- `article-template.html` — template for articles at root level
+- `writing/_template.html` — template for articles in the writing/ directory (use relative paths: `../public/style.css`, `../index.html`)
+- `public/style.css` — shared stylesheet (tokens, reset, nav, footer, retro mode)
+- `public/` — static assets (favicons, shared CSS)
 
 ## Design
 Always read `DESIGN.md` before making any visual or UI decisions.
