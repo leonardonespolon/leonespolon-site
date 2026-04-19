@@ -80,6 +80,7 @@ Theme toggle is user-controlled via a pill button in the nav. Respect `[data-the
 | Section labels | Sans | `0.68rem` | 600 | Uppercase, letter-spacing `0.1em`, faint color |
 | Body / post titles | Serif | `1rem` | 400 | Line height `1.75` |
 | Bio text | Serif | `1.08rem` | 400 | Line height `1.8`, max-width `520px` |
+| Section subtext | Serif | `0.875rem` | 400 | Italic, muted color |
 | Dates / metadata | Sans | `0.72rem` | 400 | Faint color |
 | Post tags | Sans | `0.6rem` | 500 | Accent color, pill shape |
 | Footer | Sans | `0.72rem` | 400 | Faint color |
@@ -115,6 +116,7 @@ Theme toggle is user-controlled via a pill button in the nav. Respect `[data-the
 - All transitions: `0.15s` ease
 - Hover states: color shifts to `--accent`
 - Theme toggle: smooth `0.2s` background/color transition
+- Count-up animation: scroll-triggered, eased cubic, `~1400ms` (e.g. km counter)
 
 ---
 
@@ -122,4 +124,4 @@ Theme toggle is user-controlled via a pill button in the nav. Respect `[data-the
 - Use frameworks (Bootstrap, Tailwind, etc.)
 - Change fonts without approval
 - Introduce new color values outside the token system
-- Add animations beyond the existing theme transitions and retro mode blink
+- Add animations beyond the existing theme transitions, retro mode blink, and count-up
