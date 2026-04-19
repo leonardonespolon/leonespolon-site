@@ -42,24 +42,43 @@
     /* ── Running Section ────────────────────────────────────── */
     .running-header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 40px; }
     .running-bio { font-family: var(--serif); font-size: 0.875rem; font-style: italic; color: var(--muted); margin-top: 6px; }
-.running-km-block { margin-bottom: 8px; }
-    .running-km-label { font-family: var(--sans); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+    .running-km-block { margin-bottom: 8px; }
+    .running-km-label { font-family: var(--sans); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
     .running-km-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
     .running-km-number { font-family: var(--mono); font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text); line-height: 1; }
     .running-km-unit { font-family: var(--sans); font-size: 1.125rem; color: var(--muted); }
-    .running-km-week { font-family: var(--sans); font-size: 0.75rem; font-style: italic; color: var(--faint); margin-bottom: 20px; }
+    .running-km-week { font-family: var(--sans); font-size: 0.72rem; font-style: italic; color: var(--faint); margin-bottom: 20px; }
     .running-bars-wrap { margin-bottom: 40px; }
-    .running-bars { display: flex; align-items: flex-end; gap: 5px; height: 48px; margin-bottom: 8px; }
-    .running-bar { flex: 1; border-radius: 3px 3px 0 0; background: var(--border); opacity: 0.6; }
-    .running-bar--current { background: var(--accent); opacity: 1; }
-    .running-bars-labels { border-top: 1px solid var(--border); padding-top: 6px; display: flex; justify-content: space-between; font-family: var(--sans); font-size: 0.625rem; color: var(--faint); }
+    .running-bars { display: flex; align-items: flex-end; gap: 5px; height: 48px; margin-bottom: 8px; overflow: visible; }
+    .running-bar { flex: 1; border-radius: 3px 3px 0 0; background: color-mix(in srgb, var(--border) 60%, transparent); position: relative; cursor: default; }
+    .running-bar--current { background: var(--accent); }
+    .running-bar::before {
+      content: attr(data-km) " km";
+      position: absolute;
+      bottom: calc(100% + 5px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background: var(--text);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      border-radius: 3px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.15s, transform 0.15s;
+      pointer-events: none;
+    }
+    .running-bar:hover::before { opacity: 1; transform: translateX(-50%) scale(1); }
+    .running-bars-labels { border-top: 1px solid var(--border); padding-top: 6px; display: flex; justify-content: space-between; font-family: var(--sans); font-size: 0.6rem; color: var(--faint); }
     .running-bars-label--current { color: var(--accent); }
     .running-pbs { list-style: none; padding: 0; margin: 0 0 28px; }
     .running-pb-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--border); }
-    .running-pb-label { font-family: var(--sans); font-size: 0.8125rem; color: var(--muted); }
+    .running-pb-label { font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
     .running-pb-value { font-family: var(--mono); font-size: 1.375rem; font-weight: 500; letter-spacing: -0.01em; color: var(--text); }
-    .running-strava-link { font-family: var(--sans); font-size: 0.75rem; color: var(--accent); text-decoration: none; }
+    .running-strava-link { font-family: var(--sans); font-size: 0.72rem; color: var(--accent); text-decoration: none; }
     .running-strava-link:hover { text-decoration: underline; }
+    .section-empty { font-family: var(--sans); font-size: 0.72rem; color: var(--faint); }
 
     .ds-block { margin-bottom: 40px; }
     .ds-heading { font-family: var(--sans); font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); letter-spacing: 0.05em; text-transform: uppercase; }
@@ -111,12 +130,12 @@
 
   <section class="section" id="writing">
     <p class="section-label">Writing</p>
-    <p style="font-family: var(--sans); font-size: 0.85rem; color: var(--faint);">Nothing here yet.</p>
+    <p class="section-empty">Nothing here yet.</p>
   </section>
 
   <section class="section" id="projects">
     <p class="section-label">Projects</p>
-    <p style="font-family: var(--sans); font-size: 0.85rem; color: var(--faint);">Nothing here yet.</p>
+    <p class="section-empty">Nothing here yet.</p>
   </section>
 
   <section class="section" id="stuff">
@@ -165,14 +184,14 @@
     <div class="running-bars-wrap">
       <div class="running-bars">
         <!-- BARS_START -->
-        <div class="running-bar" style="height:29%"></div>
-        <div class="running-bar" style="height:77%"></div>
-        <div class="running-bar" style="height:100%"></div>
-        <div class="running-bar" style="height:51%"></div>
-        <div class="running-bar" style="height:100%"></div>
-        <div class="running-bar" style="height:44%"></div>
-        <div class="running-bar" style="height:64%"></div>
-        <div class="running-bar running-bar--current" style="height:46%"></div>
+        <div class="running-bar" style="height:29%" data-km="0.0"></div>
+        <div class="running-bar" style="height:77%" data-km="0.0"></div>
+        <div class="running-bar" style="height:100%" data-km="0.0"></div>
+        <div class="running-bar" style="height:51%" data-km="0.0"></div>
+        <div class="running-bar" style="height:100%" data-km="0.0"></div>
+        <div class="running-bar" style="height:44%" data-km="0.0"></div>
+        <div class="running-bar" style="height:64%" data-km="0.0"></div>
+        <div class="running-bar running-bar--current" style="height:46%" data-km="0.0"></div>
         <!-- BARS_END -->
       </div>
       <div class="running-bars-labels">
@@ -265,7 +284,6 @@
       <div class="footer-links">
         <a href="https://github.com/leonardonespolon" target="_blank" rel="noopener">GitHub</a>
         <a href="https://de.linkedin.com/in/leonardonespolon" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://strava.app.link/5uJs32fZk2b" target="_blank" rel="noopener">Strava</a>
         <a href="https://x.com/itsnespo" target="_blank" rel="noopener">X</a>
       </div>
     </div>

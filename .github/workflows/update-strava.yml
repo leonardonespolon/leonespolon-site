@@ -101,7 +101,7 @@ jobs:
               pct = max(pct, 4)  # minimum visible height
               is_current = (i == len(weekly_km) - 1)
               cls = "running-bar running-bar--current" if is_current else "running-bar"
-              bar_html += f'        <div class="{cls}" style="height:{pct}%"></div>\n'
+              bar_html += f'        <div class="{cls}" style="height:{pct}%" data-km="{km}"></div>\n'
 
           html = re.sub(
               r'(<!-- BARS_START -->).*?(<!-- BARS_END -->)',

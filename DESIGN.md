@@ -82,6 +82,9 @@ Theme toggle is user-controlled via a pill button in the nav. Respect `[data-the
 | Bio text | Serif | `1.08rem` | 400 | Line height `1.8`, max-width `520px` |
 | Section subtext | Serif | `0.875rem` | 400 | Italic, muted color |
 | Dates / metadata | Sans | `0.72rem` | 400 | Faint color |
+| Running km counter | Mono | `3.5rem` | 700 | Letter-spacing `-0.03em`, count-up animated |
+| Running pb values | Mono | `1.375rem` | 500 | Letter-spacing `-0.01em` |
+| Running km unit | Sans | `1.125rem` | 400 | Pairs with km counter, muted color |
 | Post tags | Sans | `0.6rem` | 500 | Accent color, pill shape |
 | Footer | Sans | `0.72rem` | 400 | Faint color |
 
