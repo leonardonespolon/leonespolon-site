@@ -69,13 +69,15 @@
       transition: opacity 0.15s, transform 0.15s;
       pointer-events: none;
     }
-    .running-bar:hover::before { opacity: 1; transform: translateX(-50%) scale(1); }
+    .running-bar:hover::before, .running-bar.is-touched::before { opacity: 1; transform: translateX(-50%) scale(1); }
     .running-bars-labels { border-top: 1px solid var(--border); padding-top: 6px; display: flex; justify-content: space-between; font-family: var(--sans); font-size: 0.6rem; color: var(--faint); }
     .running-bars-label--current { color: var(--accent); }
     .running-pbs { list-style: none; padding: 0; margin: 0 0 28px; }
-    .running-pb-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .running-pb-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
     .running-pb-label { font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
+    .running-pb-value-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
     .running-pb-value { font-family: var(--mono); font-size: 1.375rem; font-weight: 500; letter-spacing: -0.01em; color: var(--text); }
+    .running-pb-pace { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); }
     .running-strava-link { font-family: var(--sans); font-size: 0.72rem; color: var(--accent); text-decoration: none; }
     .running-strava-link:hover { text-decoration: underline; }
     .section-empty { font-family: var(--sans); font-size: 0.72rem; color: var(--faint); }
@@ -204,15 +206,24 @@
     <ul class="running-pbs">
       <li class="running-pb-row">
         <span class="running-pb-label">Half Marathon</span>
-        <span class="running-pb-value">01:32:08</span>
+        <div class="running-pb-value-wrap">
+          <span class="running-pb-value">01:32:08</span>
+          <span class="running-pb-pace">4:22 /km</span>
+        </div>
       </li>
       <li class="running-pb-row">
         <span class="running-pb-label">10 km</span>
-        <span class="running-pb-value">43:13</span>
+        <div class="running-pb-value-wrap">
+          <span class="running-pb-value">43:13</span>
+          <span class="running-pb-pace">4:19 /km</span>
+        </div>
       </li>
       <li class="running-pb-row">
         <span class="running-pb-label">5 km</span>
-        <span class="running-pb-value">20:17</span>
+        <div class="running-pb-value-wrap">
+          <span class="running-pb-value">20:17</span>
+          <span class="running-pb-pace">4:03 /km</span>
+        </div>
       </li>
     </ul>
 
@@ -292,6 +303,18 @@
 </div>
 
 <div class="retro-flash" id="retro-flash">🕹️ CHEAT CODE ACTIVATED</div>
+
+<script>
+// Running: bar tooltip on touch (mobile)
+document.querySelectorAll('.running-bar').forEach(bar => {
+  bar.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    document.querySelectorAll('.running-bar').forEach(b => b.classList.remove('is-touched'));
+    bar.classList.add('is-touched');
+    setTimeout(() => bar.classList.remove('is-touched'), 1500);
+  }, { passive: false });
+});
+</script>
 
 <script>
 // Running: km count-up on scroll into view
