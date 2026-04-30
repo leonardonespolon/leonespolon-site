@@ -42,12 +42,18 @@
     /* ── Running Section ────────────────────────────────────── */
     .running-header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 40px; }
     .running-bio { font-family: var(--serif); font-size: 0.875rem; font-style: italic; color: var(--muted); margin-top: 6px; }
-    .running-km-block { margin-bottom: 8px; }
     .running-km-label { font-family: var(--sans); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
     .running-km-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
     .running-km-number { font-family: var(--mono); font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text); line-height: 1; }
     .running-km-unit { font-family: var(--sans); font-size: 1.125rem; color: var(--muted); }
     .running-km-week { font-family: var(--sans); font-size: 0.72rem; font-style: italic; color: var(--faint); margin-bottom: 20px; }
+    /* ── Rotating counter ─────────────────────────────────────── */
+    .running-km-block { position:relative; margin-bottom:4px; }
+    .counter-slide { position:absolute; top:0; left:0; width:100%; opacity:0; transform:translateY(5px); transition:opacity 0.35s ease,transform 0.35s ease; pointer-events:none; }
+    .counter-slide.active { opacity:1; transform:translateY(0); pointer-events:auto; }
+    .running-km-dots { display:flex; gap:5px; margin-bottom:20px; }
+    .running-km-dot { width:4px; height:4px; border-radius:50%; background:var(--border); transition:background 0.3s; }
+    .running-km-dot.active { background:var(--faint); }
     .running-bars-wrap { margin-bottom: 40px; }
     .running-bars { display: flex; align-items: flex-end; gap: 5px; height: 48px; margin-bottom: 8px; overflow: visible; }
     .running-bar { flex: 1; border-radius: 3px 3px 0 0; background: color-mix(in srgb, var(--border) 60%, transparent); position: relative; cursor: default; }
@@ -103,6 +109,13 @@
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
     .btn-text { font-family: var(--sans); font-size: 0.8rem; color: var(--accent); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   </style>
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wjfnxoyvmc");
+  </script>
 </head>
 <body>
 
@@ -156,12 +169,20 @@
         <span class="post-date">Feb 2026</span>
       </li>
       <li class="post-row">
+        <div class="post-title-wrap"><a href="https://foundersatwork.posthaven.com/find-your-people" class="post-link" target="_blank" rel="noopener">Find Your People <span class="post-tag">Jessica Livingston · Article</span></a></div>
+        <span class="post-date">May 2025</span>
+      </li>
+      <li class="post-row">
         <div class="post-title-wrap"><a href="https://giansegato.com/essays/agency-is-eating-the-world" class="post-link" target="_blank" rel="noopener">Agency is Eating the World <span class="post-tag">Gian Segato · Article</span></a></div>
         <span class="post-date">Apr 2025</span>
       </li>
       <li class="post-row">
         <div class="post-title-wrap"><a href="https://situational-awareness.ai/wp-content/uploads/2024/06/situationalawareness.pdf" class="post-link" target="_blank" rel="noopener">Situational Awareness: The Decade Ahead <span class="post-tag">Leopold Aschenbrenner · Essay</span></a></div>
         <span class="post-date">Jun 2024</span>
+      </li>
+      <li class="post-row">
+        <div class="post-title-wrap"><a href="https://paulgraham.com/kids.html" class="post-link" target="_blank" rel="noopener">Having Kids <span class="post-tag">Paul Graham · Essay</span></a></div>
+        <span class="post-date">Sep 2019</span>
       </li>
     </ul>
   </section>
@@ -176,14 +197,50 @@
       <p class="running-bio">Started running on Jan 2025, haven't stopped yet.</p>
     </div>
 
-    <!-- KM Counter -->
-    <div class="running-km-block">
-      <p class="running-km-label">Kilometres run</p>
-      <div class="running-km-row">
-        <span class="running-km-number" data-target="1463.4">0.0</span>
-        <span class="running-km-unit">km</span>
+    <!-- KM Counter — rotating -->
+    <p class="running-km-label" id="rotatingLabel">Kilometres run</p>
+
+    <div class="running-km-block" id="kmBlock">
+      <div class="counter-slide active" id="slide-0">
+        <div class="running-km-row">
+          <span class="running-km-number" id="n0" data-target="1469.4">0.0</span>
+          <span class="running-km-unit">km</span>
+        </div>
       </div>
-      <p class="running-km-week">+0.0 km this week</p>
+      <div class="counter-slide" id="slide-1">
+        <div class="running-km-row">
+          <span class="running-km-number" id="n1">0.0</span>
+          <span class="running-km-unit">marathons</span>
+        </div>
+      </div>
+      <div class="counter-slide" id="slide-2">
+        <div class="running-km-row">
+          <span class="running-km-number" id="n2">0.0</span>
+          <span class="running-km-unit">× Italy</span>
+        </div>
+      </div>
+      <div class="counter-slide" id="slide-3">
+        <div class="running-km-row">
+          <span class="running-km-number" id="n3">0</span>
+          <span class="running-km-unit">climbs</span>
+        </div>
+      </div>
+      <div class="counter-slide" id="slide-4">
+        <div class="running-km-row">
+          <span class="running-km-number" id="n4">0</span>
+          <span class="running-km-unit">hot dogs</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="running-km-week" id="rotatingSubline">+6.0 km this week</p>
+
+    <div class="running-km-dots">
+      <div class="running-km-dot active"></div>
+      <div class="running-km-dot"></div>
+      <div class="running-km-dot"></div>
+      <div class="running-km-dot"></div>
+      <div class="running-km-dot"></div>
     </div>
 
     <!-- Weekly bars -->
@@ -197,7 +254,7 @@
         <div class="running-bar" style="height:64%" data-km="25.0"></div>
         <div class="running-bar" style="height:46%" data-km="17.9"></div>
         <div class="running-bar" style="height:74%" data-km="28.9"></div>
-        <div class="running-bar running-bar--current" style="height:4%" data-km="0.0"></div>
+        <div class="running-bar running-bar--current" style="height:15%" data-km="6.0"></div>
         <!-- BARS_END -->
       </div>
       <div class="running-bars-labels">
@@ -321,30 +378,79 @@ document.querySelectorAll('.running-bar').forEach(bar => {
 </script>
 
 <script>
-// Running: km count-up on scroll into view
-const kmEl = document.querySelector('.running-km-number');
-if (kmEl) {
-  const target = parseFloat(kmEl.dataset.target);
-  let started = false;
-  const observer = new IntersectionObserver((entries) => {
+(function() {
+  const TARGET = parseFloat(document.getElementById('n0').dataset.target) || 0;
+
+  const SLIDES = [
+    { id:'n0', label:'Kilometres run',       subline: document.getElementById('rotatingSubline').textContent, fn: km => km,                        dec: 1 },
+    { id:'n1', label:'Equivalent marathons', subline:"that's 34.8 full 42 km races back to back",             fn: km => km / 42.195,               dec: 1 },
+    { id:'n2', label:'Length of Italy',      subline:'longer than the whole country top to bottom',           fn: km => km / 1300,                 dec: 2 },
+    { id:'n3', label:'Eiffel Tower climbs',  subline:'up the stairs and back down, 4,537 times',              fn: km => Math.floor(km / 0.324),    dec: 0 },
+    { id:'n4', label:'Hot dogs of energy',   subline:"worth of calories burned — don't @ me",                fn: km => Math.floor(km * 70 / 150), dec: 0 },
+  ];
+
+  const COUNT_DUR = 1400;
+  const HOLD_DUR  = 3000;
+
+  const labelEl   = document.getElementById('rotatingLabel');
+  const sublineEl = document.getElementById('rotatingSubline');
+  const dots      = document.querySelectorAll('.running-km-dot');
+  const block     = document.getElementById('kmBlock');
+
+  let current = 0, countRaf = null, cycleTimer = null, started = false;
+
+  function fmt(n, d) {
+    return d === 0
+      ? Math.round(n).toLocaleString('en')
+      : n.toLocaleString('en', { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function countUp(idx, onDone) {
+    if (countRaf) cancelAnimationFrame(countRaf);
+    const s = SLIDES[idx];
+    const el = document.getElementById(s.id);
+    const end = s.fn(TARGET);
+    let t0 = null;
+    countRaf = requestAnimationFrame(function tick(ts) {
+      if (!t0) t0 = ts;
+      const p = Math.min(1, (ts - t0) / COUNT_DUR);
+      el.textContent = fmt(s.fn(TARGET * easeOut(p)), s.dec);
+      if (p < 1) countRaf = requestAnimationFrame(tick);
+      else { el.textContent = fmt(end, s.dec); if (onDone) onDone(); }
+    });
+  }
+
+  function showSlide(idx) {
+    document.querySelectorAll('.counter-slide').forEach((el, i) => el.classList.toggle('active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    labelEl.textContent   = SLIDES[idx].label;
+    sublineEl.textContent = SLIDES[idx].subline;
+    current = idx;
+  }
+
+  function next() {
+    const idx = (current + 1) % SLIDES.length;
+    showSlide(idx);
+    countUp(idx, () => { cycleTimer = setTimeout(next, HOLD_DUR); });
+  }
+
+  function init() {
+    block.style.height = document.getElementById('slide-0').offsetHeight + 'px';
+    showSlide(0);
+    countUp(0, () => { cycleTimer = setTimeout(next, HOLD_DUR); });
+  }
+
+  new IntersectionObserver((entries, obs) => {
     if (entries[0].isIntersecting && !started) {
       started = true;
-      const duration = 1400;
-      const t0 = performance.now();
-      const tick = (now) => {
-        const p = Math.min(1, (now - t0) / duration);
-        const ease = 1 - Math.pow(1 - p, 3);
-        const val = target * ease;
-        kmEl.textContent = val.toLocaleString('en', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-        if (p < 1) requestAnimationFrame(tick);
-        else kmEl.textContent = target.toLocaleString('en', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-      };
-      requestAnimationFrame(tick);
-      observer.disconnect();
+      obs.disconnect();
+      init();
     }
-  }, { threshold: 0.3 });
-  observer.observe(document.getElementById('running'));
-}
+  }, { threshold: 0.3 }).observe(document.getElementById('running'));
+
+})();
 </script>
 
 <script>
