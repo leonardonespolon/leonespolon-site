@@ -82,14 +82,14 @@ jobs:
 
           # Total km → data-target attribute
           html = re.sub(
-              r'(class="running-km-number" data-target=")[^"]*(")',
+              r'(<span class="running-km-number"[^>]*data-target=")[^"]*(")',
               rf'\g<1>{total_km}\2',
               html
           )
 
           # This week label
           html = re.sub(
-              r'(class="running-km-week">)[^<]*(</p>)',
+              r'(<p class="running-km-week"[^>]*>)[^<]*(</p>)',
               rf'\g<1>+{this_week_km} km this week\2',
               html
           )
