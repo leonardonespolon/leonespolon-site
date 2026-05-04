@@ -383,9 +383,9 @@ document.querySelectorAll('.running-bar').forEach(bar => {
 
   const SLIDES = [
     { id:'n0', label:'Kilometres run',       subline: document.getElementById('rotatingSubline').textContent, fn: km => km,                        dec: 1 },
-    { id:'n1', label:'Equivalent marathons', subline:"that's 34.8 full 42 km races back to back",             fn: km => km / 42.195,               dec: 1 },
-    { id:'n2', label:'Length of Italy',      subline:'longer than the whole country top to bottom',           fn: km => km / 1300,                 dec: 2 },
-    { id:'n3', label:'Eiffel Tower climbs',  subline:'up the stairs and back down, 4,537 times',              fn: km => Math.floor(km / 0.324),    dec: 0 },
+    { id:'n1', label:'Equivalent marathons', subline:`that's ${(TARGET / 42.195).toFixed(1)} full 42 km races back to back`,                    fn: km => km / 42.195,               dec: 1 },
+    { id:'n2', label:'Length of Italy',      subline:'longer than the whole country top to bottom',                                                fn: km => km / 1300,                 dec: 2 },
+    { id:'n3', label:'Eiffel Tower climbs',  subline:`up the stairs and back down, ${Math.floor(TARGET / 0.324).toLocaleString('en')} times`,      fn: km => Math.floor(km / 0.324),    dec: 0 },
     { id:'n4', label:'Hot dogs of energy',   subline:"worth of calories burned — don't @ me",                fn: km => Math.floor(km * 70 / 150), dec: 0 },
   ];
 
