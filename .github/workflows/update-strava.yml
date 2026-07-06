@@ -1,9 +1,16 @@
 name: Update Strava Stats
 
 on:
-  schedule:
-    - cron: '0 6 * * *'  # runs daily at 6am UTC
-  workflow_dispatch:       # allows manual trigger from GitHub UI
+  workflow_dispatch:
+    inputs:
+      total_km:
+        description: 'All-time total running distance (km)'
+        required: true
+        type: string
+      this_week_km:
+        description: "This week's running distance (km)"
+        required: true
+        type: string
 
 jobs:
   update-stats:
@@ -15,76 +22,43 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Fetch and update Strava stats
+      - name: Update running stats
         env:
-          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
-          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
-          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+          TOTAL_KM: ${{ inputs.total_km }}
+          THIS_WEEK_KM: ${{ inputs.this_week_km }}
         run: |
           python3 << 'EOF'
-          import urllib.request
-          import urllib.parse
-          import urllib.error
           import json
           import re
           import os
-          import sys
           from datetime import datetime, timezone, timedelta
 
-          client_id     = os.environ["STRAVA_CLIENT_ID"]
-          client_secret = os.environ["STRAVA_CLIENT_SECRET"]
-          refresh_token = os.environ["STRAVA_REFRESH_TOKEN"]
-
-          def request_json(req):
-              try:
-                  return json.loads(urllib.request.urlopen(req).read())
-              except urllib.error.HTTPError as e:
-                  body = e.read().decode(errors="replace")
-                  print(f"Strava API error {e.code} on {req.full_url}: {body}", file=sys.stderr)
-                  raise
-
-          # ── Refresh access token ──────────────────────────────────────
-          payload = urllib.parse.urlencode({
-              "client_id":     client_id,
-              "client_secret": client_secret,
-              "refresh_token": refresh_token,
-              "grant_type":    "refresh_token",
-          }).encode()
-          req  = urllib.request.Request("https://www.strava.com/oauth/token", data=payload)
-          resp = request_json(req)
-          token   = resp["access_token"]
-          headers = {"Authorization": f"Bearer {token}"}
-
-          def get(url):
-              r = urllib.request.Request(url, headers=headers)
-              return request_json(r)
-
-          athlete_id = get("https://www.strava.com/api/v3/athlete")["id"]
-
-          # ── Total km ─────────────────────────────────────────────────
-          stats    = get(f"https://www.strava.com/api/v3/athletes/{athlete_id}/stats")
-          total_km = round(stats["all_run_totals"]["distance"] / 1000, 1)
+          total_km     = round(float(os.environ["TOTAL_KM"]), 1)
+          this_week_km = round(float(os.environ["THIS_WEEK_KM"]), 1)
           print(f"Total km: {total_km}")
+          print(f"This week: {this_week_km} km")
 
-          # ── Last 8 weeks of km ───────────────────────────────────────
+          # ── Update rolling 8-week log ──────────────────────────────────
+          log_path = "data/running-log.json"
+          with open(log_path) as f:
+              log = json.load(f)
+
           now = datetime.now(timezone.utc)
-          this_monday = now - timedelta(days=now.weekday())
-          this_monday = this_monday.replace(hour=0, minute=0, second=0, microsecond=0)
-          weekly_km = []
+          this_monday = (now - timedelta(days=now.weekday())).replace(
+              hour=0, minute=0, second=0, microsecond=0
+          )
+          log[this_monday.date().isoformat()] = this_week_km
 
-          for i in range(7, -1, -1):  # 7 = oldest, 0 = current week
-              week_start = this_monday - timedelta(weeks=i)
-              week_end   = now if i == 0 else week_start + timedelta(days=7)
-              after_ts   = int(week_start.timestamp())
-              before_ts  = int(week_end.timestamp())
-              acts = get(f"https://www.strava.com/api/v3/athlete/activities?after={after_ts}&before={before_ts}&per_page=100")
-              km = round(sum(a["distance"] for a in acts if a.get("sport_type", a["type"]) in ("Run", "TrailRun")) / 1000, 1)
-              weekly_km.append(km)
+          cutoff = (this_monday - timedelta(weeks=7)).date().isoformat()
+          log = {date: km for date, km in log.items() if date >= cutoff}
 
-          this_week_km = weekly_km[-1]
+          with open(log_path, "w") as f:
+              json.dump(dict(sorted(log.items())), f, indent=2)
+              f.write("\n")
+
+          weekly_km = [km for _, km in sorted(log.items())]
           max_km = max(weekly_km) if max(weekly_km) > 0 else 1
           print(f"Weekly km: {weekly_km}")
-          print(f"This week: {this_week_km} km")
 
           # ── Patch index.html ─────────────────────────────────────────
           with open("index.html", "r") as f:
@@ -130,6 +104,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git diff --cached --quiet || git commit -m "chore: update Strava stats"
+          git add index.html data/running-log.json
+          git diff --cached --quiet || git commit -m "chore: update running stats"
           git push
