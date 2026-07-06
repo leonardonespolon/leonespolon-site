@@ -24,14 +24,24 @@ jobs:
           python3 << 'EOF'
           import urllib.request
           import urllib.parse
+          import urllib.error
           import json
           import re
           import os
+          import sys
           from datetime import datetime, timezone, timedelta
 
           client_id     = os.environ["STRAVA_CLIENT_ID"]
           client_secret = os.environ["STRAVA_CLIENT_SECRET"]
           refresh_token = os.environ["STRAVA_REFRESH_TOKEN"]
+
+          def request_json(req):
+              try:
+                  return json.loads(urllib.request.urlopen(req).read())
+              except urllib.error.HTTPError as e:
+                  body = e.read().decode(errors="replace")
+                  print(f"Strava API error {e.code} on {req.full_url}: {body}", file=sys.stderr)
+                  raise
 
           # ── Refresh access token ──────────────────────────────────────
           payload = urllib.parse.urlencode({
@@ -41,13 +51,13 @@ jobs:
               "grant_type":    "refresh_token",
           }).encode()
           req  = urllib.request.Request("https://www.strava.com/oauth/token", data=payload)
-          resp = json.loads(urllib.request.urlopen(req).read())
+          resp = request_json(req)
           token   = resp["access_token"]
           headers = {"Authorization": f"Bearer {token}"}
 
           def get(url):
               r = urllib.request.Request(url, headers=headers)
-              return json.loads(urllib.request.urlopen(r).read())
+              return request_json(r)
 
           athlete_id = get("https://www.strava.com/api/v3/athlete")["id"]
 
