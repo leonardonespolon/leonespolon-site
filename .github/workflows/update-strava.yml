@@ -7,10 +7,6 @@ on:
         description: 'All-time total running distance (km)'
         required: true
         type: string
-      this_week_km:
-        description: "This week's running distance (km)"
-        required: true
-        type: string
 
 jobs:
   update-stats:
@@ -25,7 +21,6 @@ jobs:
       - name: Update running stats
         env:
           TOTAL_KM: ${{ inputs.total_km }}
-          THIS_WEEK_KM: ${{ inputs.this_week_km }}
         run: |
           python3 << 'EOF'
           import json
@@ -34,31 +29,7 @@ jobs:
           from datetime import datetime, timezone, timedelta
 
           total_km     = round(float(os.environ["TOTAL_KM"]), 1)
-          this_week_km = round(float(os.environ["THIS_WEEK_KM"]), 1)
           print(f"Total km: {total_km}")
-          print(f"This week: {this_week_km} km")
-
-          # ── Update rolling 8-week log ──────────────────────────────────
-          log_path = "data/running-log.json"
-          with open(log_path) as f:
-              log = json.load(f)
-
-          now = datetime.now(timezone.utc)
-          this_monday = (now - timedelta(days=now.weekday())).replace(
-              hour=0, minute=0, second=0, microsecond=0
-          )
-          log[this_monday.date().isoformat()] = this_week_km
-
-          cutoff = (this_monday - timedelta(weeks=7)).date().isoformat()
-          log = {date: km for date, km in log.items() if date >= cutoff}
-
-          with open(log_path, "w") as f:
-              json.dump(dict(sorted(log.items())), f, indent=2)
-              f.write("\n")
-
-          weekly_km = [km for _, km in sorted(log.items())]
-          max_km = max(weekly_km) if max(weekly_km) > 0 else 1
-          print(f"Weekly km: {weekly_km}")
 
           # ── Patch index.html ─────────────────────────────────────────
           with open("index.html", "r") as f:
@@ -71,29 +42,6 @@ jobs:
               html
           )
 
-          # This week label
-          html = re.sub(
-              r'(<p class="running-km-week"[^>]*>)[^<]*(</p>)',
-              rf'\g<1>+{this_week_km} km this week\2',
-              html
-          )
-
-          # Weekly bars between sentinel comments
-          bar_html = ""
-          for i, km in enumerate(weekly_km):
-              pct = round((km / max_km) * 100)
-              pct = max(pct, 4)  # minimum visible height
-              is_current = (i == len(weekly_km) - 1)
-              cls = "running-bar running-bar--current" if is_current else "running-bar"
-              bar_html += f'        <div class="{cls}" style="height:{pct}%" data-km="{km}"></div>\n'
-
-          html = re.sub(
-              r'(<!-- BARS_START -->).*?(<!-- BARS_END -->)',
-              rf'\1\n{bar_html}        \2',
-              html,
-              flags=re.DOTALL
-          )
-
           with open("index.html", "w") as f:
               f.write(html)
 
@@ -104,6 +52,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html data/running-log.json
+          git add index.html
           git diff --cached --quiet || git commit -m "chore: update running stats"
           git push
