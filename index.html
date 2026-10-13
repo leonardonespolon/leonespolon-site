@@ -46,7 +46,7 @@
     .running-km-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
     .running-km-number { font-family: var(--mono); font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text); line-height: 1; }
     .running-km-unit { font-family: var(--sans); font-size: 1.125rem; color: var(--muted); }
-    .running-km-week { font-family: var(--sans); font-size: 0.72rem; font-style: italic; color: var(--faint); margin-bottom: 20px; }
+    .running-km-week { font-family: var(--sans); font-size: 0.72rem; font-style: italic; color: var(--faint); margin-bottom: 20px; min-height: 1.2em; }
     /* ── Rotating counter ─────────────────────────────────────── */
     .running-km-block { position:relative; margin-bottom:4px; }
     .counter-slide { position:absolute; top:0; left:0; width:100%; opacity:0; transform:translateY(5px); transition:opacity 0.35s ease,transform 0.35s ease; pointer-events:none; }
@@ -54,30 +54,6 @@
     .running-km-dots { display:flex; gap:5px; margin-bottom:20px; }
     .running-km-dot { width:4px; height:4px; border-radius:50%; background:var(--border); transition:background 0.3s; }
     .running-km-dot.active { background:var(--faint); }
-    .running-bars-wrap { margin-bottom: 40px; }
-    .running-bars { display: flex; align-items: flex-end; gap: 5px; height: 48px; margin-bottom: 8px; overflow: visible; }
-    .running-bar { flex: 1; border-radius: 3px 3px 0 0; background: color-mix(in srgb, var(--border) 60%, transparent); position: relative; cursor: default; }
-    .running-bar--current { background: var(--accent); }
-    .running-bar::before {
-      content: attr(data-km) " km";
-      position: absolute;
-      bottom: calc(100% + 5px);
-      left: 50%;
-      transform: translateX(-50%) scale(0.9);
-      background: var(--text);
-      color: var(--bg);
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      padding: 2px 6px;
-      border-radius: 3px;
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.15s, transform 0.15s;
-      pointer-events: none;
-    }
-    .running-bar:hover::before, .running-bar.is-touched::before { opacity: 1; transform: translateX(-50%) scale(1); }
-    .running-bars-labels { border-top: 1px solid var(--border); padding-top: 6px; display: flex; justify-content: space-between; font-family: var(--sans); font-size: 0.6rem; color: var(--faint); }
-    .running-bars-label--current { color: var(--accent); }
     .running-pbs { list-style: none; padding: 0; margin: 0 0 28px; }
     .running-pb-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
     .running-pb-label { font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
@@ -246,7 +222,7 @@
       </div>
     </div>
 
-    <p class="running-km-week" id="rotatingSubline">+41.0 km this week</p>
+    <p class="running-km-week" id="rotatingSubline"></p>
 
     <div class="running-km-dots">
       <div class="running-km-dot active"></div>
@@ -254,24 +230,6 @@
       <div class="running-km-dot"></div>
       <div class="running-km-dot"></div>
       <div class="running-km-dot"></div>
-    </div>
-
-    <!-- Weekly bars -->
-    <div class="running-bars-wrap">
-      <div class="running-bars">
-        <!-- BARS_START -->
-        <div class="running-bar" style="height:65%" data-km="41.00"></div>
-        <div class="running-bar" style="height:95%" data-km="60.00"></div>
-        <div class="running-bar" style="height:38%" data-km="24.92"></div>
-        <div class="running-bar" style="height:36%" data-km="23.35"></div>
-        <div class="running-bar" style="height:100%" data-km="63.22"></div>
-        <div class="running-bar running-bar--current" style="height:65%" data-km="41.0"></div>
-        <!-- BARS_END -->
-      </div>
-      <div class="running-bars-labels">
-        <span>8 weeks ago</span>
-        <span class="running-bars-label--current">this week</span>
-      </div>
     </div>
 
     <!-- Personal Bests -->
@@ -384,23 +342,11 @@
 <div class="retro-flash" id="retro-flash">🕹️ CHEAT CODE ACTIVATED</div>
 
 <script>
-// Running: bar tooltip on touch (mobile)
-document.querySelectorAll('.running-bar').forEach(bar => {
-  bar.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    document.querySelectorAll('.running-bar').forEach(b => b.classList.remove('is-touched'));
-    bar.classList.add('is-touched');
-    setTimeout(() => bar.classList.remove('is-touched'), 1500);
-  }, { passive: false });
-});
-</script>
-
-<script>
 (function() {
   const TARGET = parseFloat(document.getElementById('n0').dataset.target) || 0;
 
   const SLIDES = [
-    { id:'n0', label:'Kilometres run',       subline: document.getElementById('rotatingSubline').textContent, fn: km => km,                        dec: 1 },
+    { id:'n0', label:'Kilometres run',       subline:'', fn: km => km,                        dec: 1 },
     { id:'n1', label:'Equivalent marathons', subline:`that's ${(TARGET / 42.195).toFixed(1)} full 42 km races back to back`,                    fn: km => km / 42.195,               dec: 1 },
     { id:'n2', label:'Length of Italy',      subline:'longer than the whole country top to bottom',                                                fn: km => km / 1300,                 dec: 2 },
     { id:'n3', label:'Eiffel Tower climbs',  subline:`up the stairs and back down, ${Math.floor(TARGET / 0.324).toLocaleString('en')} times`,      fn: km => Math.floor(km / 0.324),    dec: 0 },
